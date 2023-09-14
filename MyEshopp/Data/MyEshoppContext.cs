@@ -30,6 +30,8 @@ namespace MyEshopp.Data
 
 			#region key
 
+			modelBuilder.Entity<Users>().HasKey(u => u.UserId);
+
 			modelBuilder.Entity<CatagoryToProduct>()
 				.HasKey(t => new { t.CatagoryId, t.ProductId });
 
