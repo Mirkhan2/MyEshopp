@@ -1,0 +1,30 @@
+﻿/*{
+    <!DOCTYPE html>
+<html>
+<head>
+        <meta name= "viewport" content="width-device-width" />
+        <title> @ViewBag.Title </title>
+        <link href ="~/css/admin.css" rel ="stylesheet" />
+
+<body  dir ="rtl">
+<header>
+        <a href ="/">Admin</a>
+    <header>
+<div class = "container">
+    <nav>
+        <ul>
+            <li>
+                <a class = "nav-item">
+                     Home
+        </a>
+        </li>
+        </ul>
+        </nav>
+        <main>
+        @RenderBody()
+    </main>
+        </div>
+        </body>
+        </html>
+}
+*/

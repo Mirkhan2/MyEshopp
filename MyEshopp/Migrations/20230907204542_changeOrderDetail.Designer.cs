@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEshopp.Data;
 
 namespace MyEshopp.Migrations
 {
     [DbContext(typeof(MyEshoppContext))]
-    partial class MyEshoppContextModelSnapshot : ModelSnapshot
+    [Migration("20230907204542_changeOrderDetail")]
+    partial class changeOrderDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

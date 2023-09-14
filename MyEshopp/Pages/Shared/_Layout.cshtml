@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href ="~/css/admin.css" rel=" stylesheet "/>
+    <link href ="https://cdn.rawgit.com/rastikerder/sahel-font/v1.0.0-alpha23/dist/font-face.css/ "rel="stylesheet"type="text/css"  />   
+    <link href ="~/css/admin.css" rel=" stylesheet" />
+</head>
+<body dir="rtl">
+    <header> 
+        <a href="/"Admin  </a>
+        </header>
+        <div class=" row">
+    <div class=" col-md-2">
+        <nav>
+            <ul>
+                <li>
+                    <a class="nav-item">
+                        Home
+                    </a>
+                </li>
+            </ul>   
+        </nav>
+        </div>
+
+        <div class "col-md-10">
+        
+            @RenderBody()
+            </div>
+        
+    </div>
+</body>
+</html>

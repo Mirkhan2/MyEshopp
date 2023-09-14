@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEshopp.Data;
 
 namespace MyEshopp.Migrations
 {
     [DbContext(typeof(MyEshoppContext))]
-    partial class MyEshoppContextModelSnapshot : ModelSnapshot
+    [Migration("20230907120400_initTblsOrder")]
+    partial class initTblsOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,7 +182,7 @@ namespace MyEshopp.Migrations
 
             modelBuilder.Entity("MyEshopp.Models.Order", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -194,12 +196,9 @@ namespace MyEshopp.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("UsersUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -210,9 +209,6 @@ namespace MyEshopp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -343,11 +339,13 @@ namespace MyEshopp.Migrations
 
             modelBuilder.Entity("MyEshopp.Models.Order", b =>
                 {
-                    b.HasOne("MyEshopp.Models.Users", "Users")
-                        .WithMany("Orders")
-                        .HasForeignKey("UsersUserId");
+                    b.HasOne("MyEshopp.Models.Users", "User")
+                        .WithMany("Order")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MyEshopp.Models.OrderDetail", b =>
@@ -404,7 +402,7 @@ namespace MyEshopp.Migrations
 
             modelBuilder.Entity("MyEshopp.Models.Users", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

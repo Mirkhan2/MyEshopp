@@ -1,0 +1,91 @@
+﻿* {
+    margin : 0;
+    padding : 0;
+    box-sizing: border-box;
+
+}
+body {
+    font-family : "Segoe UI",Arial,Arial, Helvetica, sans-serif;
+
+}
+header {
+    width :100vw;
+    height :48px;
+    padding-right :25px;
+    background-color : #343a40:
+        color : #fff;
+    display :flex ;
+    flex-direction :row;
+    justify-content : space-between;
+    align-items : center;
+}
+header a {
+    display :block;
+    color : #fff;
+    text-decoration : none;
+}
+.container {
+    display :flex;
+    flex-direction: row;
+    justify-content : flex-start;
+    align-items: top;
+}
+nav {
+    display :flex;
+    flex-flow : row wrap;
+    justify-content : flex-start;
+    height : calc (100vh -48px);
+    width :200 px;
+    background-color : #f8f9fa;
+    color : #212529;
+}
+nav u1 {
+    list-style: none;
+}
+nav ul li {
+    padding 10px 25px;
+}
+nav-item {
+    color: #212529;
+    text-decoration : none;
+}
+main {
+    width :calc (100vw - 200px);
+    padding :50px;
+}
+table{
+    width = 100 %;
+}
+td, th{
+    border : 1px solid #999;
+    padding : 0.5rem;
+}
+.myButton {
+    font-size: 15px;
+    font-family: Arial;
+    width: 140px;
+    height: 50px;
+    border-width: 1px;
+    color: #fff;
+    border-color: #4b8f29;
+    font-weight: bold;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0px 10px 14px -7px #3e7327;
+    text-shadow: 0px 1px 0px #5b8a3c;
+    background: linear-gradient(#77b55a, #72b352);
+    margin : 10px;
+}
+
+    .myButton:hover {
+        background: linear-gradient(#72b352, #77b55a);
+    }
+    .myButton:active{
+        position : relative;
+        top : 1px;
+    }
+
+
+

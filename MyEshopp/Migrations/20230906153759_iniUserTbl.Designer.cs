@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEshopp.Data;
 
 namespace MyEshopp.Migrations
 {
     [DbContext(typeof(MyEshoppContext))]
-    partial class MyEshoppContextModelSnapshot : ModelSnapshot
+    [Migration("20230906153759_iniUserTbl")]
+    partial class iniUserTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,60 +180,6 @@ namespace MyEshopp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MyEshopp.Models.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsFinaly")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UsersUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("MyEshopp.Models.OrderDetail", b =>
-                {
-                    b.Property<int>("DetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DetailId");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("MyEshopp.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -311,8 +259,7 @@ namespace MyEshopp.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Registerdate")
                         .HasColumnType("datetime2");
@@ -341,34 +288,6 @@ namespace MyEshopp.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MyEshopp.Models.Order", b =>
-                {
-                    b.HasOne("MyEshopp.Models.Users", "Users")
-                        .WithMany("Orders")
-                        .HasForeignKey("UsersUserId");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("MyEshopp.Models.OrderDetail", b =>
-                {
-                    b.HasOne("MyEshopp.Models.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyEshopp.Models.Product", "Product")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("MyEshopp.Models.Product", b =>
                 {
                     b.HasOne("MyEshopp.Models.Item", "Item")
@@ -390,21 +309,9 @@ namespace MyEshopp.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MyEshopp.Models.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-                });
-
             modelBuilder.Entity("MyEshopp.Models.Product", b =>
                 {
                     b.Navigation("CatagoryToProducts");
-
-                    b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("MyEshopp.Models.Users", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

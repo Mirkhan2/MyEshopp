@@ -1,31 +1,41 @@
-﻿@model CartViewModel
+﻿@model Order
 @{
     ViewData["Title"] = "Warenkorb";
 }
 
-<table class=" table table-striped">
-    <thead class=" thead-dark">
-     <tr>
-            <th>Cartya item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-     </tr>
-    </thead>
-   <tbody>
-        @foreach (var item in Model.CartItems)
-        {
+@if (Model != null)
+{
+    <table class=" table table-striped">
+        <thead class=" thead-dark">
             <tr>
-                <td>@item.Item.Product.Name</td>
-                <td>@item.Quantity</td>
-                <td>@item.getTotalPrice()</td>
-                <td>
-                    <a asp-action="RemoveCart" asp-route-itemId ="@item.Item.Id" >Delete</a>
-                </td>
+                <th> kalaitem</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th></th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Count</td>
+                    <td>@(item.Count *  item.Price)</td>
+                    <td>
+                        <a asp-action="RemoveCart" asp-route-detailId="@item.DetailId">Delete</a>
+                    </td>
+                </tr>
 
-        }
-   </tbody>
+            }
+        </tbody>
 
-</table>
-<h5>Sum : @Model.OrderTotal</h5>
+    </table>
+    <h5>Sum : @Model.OrderDetails.Sum(s=>s.Count * s.Price)</h5>
+
+}
+else
+{
+    <div  class=" alert alert-danger">NoOrder</div>
+
+}
 

@@ -1,22 +1,28 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyEshopp.Data;
+using MyEshopp.Data.Repositories;
+using MyEshopp.Models;
 
 namespace MyEshopp.Components
 {
-    public class ProductGroupsComponent : ViewComponent
-    {
-        private MyEshoppContext _context;
+	public class ProductGroupsComponent : ViewComponent
+	{
+		private IGroupRepository _groupRepository;
+		
+		public ProductGroupsComponent(IGroupRepository groupRepository)
+		{
+			_groupRepository = groupRepository;
+		}
+		
 
-        public ProductGroupsComponent(MyEshoppContext context)
-        {
-            _context = context;
+		
+		public async Task<IViewComponentResult> InvokeAsync()
+		{
+			
 
-            
-        }
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            return View("/Views/Components/ProductGroupsComponent.cshtml", _context.Catagories);
-        }
-    }
+			return View("/Views/Components/ProductGroupsComponent.cshtml", _groupRepository.GetGroupForShow());
+		}
+	}
 }

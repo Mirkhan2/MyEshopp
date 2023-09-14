@@ -1,0 +1,33 @@
+﻿@page
+@model MyEshopp.Pages.Admin.DeleteModel
+@{
+	ViewData["Title"] = "Delate";
+}
+<h1>Delete k</h1>
+<form method="post">
+<dl class="dl-horizontal">
+	<dd><label asp-for="Product.Name"></label> </dd>
+	<dt>
+		<input asp-for="Product.Name" class="form-control" readonly />
+		<span asp-validation-for="Product.Name"></span>
+	</dt>
+	<dd><label asp-for="Product.Description" class=" form-control"></label> </dd>
+	<dt>
+		<textarea asp-for="Product.Description" class="form-control" readonly></textarea>
+		<span asp-validation-for="Product.Description"></span>
+	</dt>
+	<dd><label >  Pic   </label> </dd>
+	<dt>
+		<img src="~/Images/@(Model.Product.Id).jpg" style="max-width:200px"/>
+	
+	</dt>
+	<dd>  </dd>
+	<dt>
+		
+			<input type ="hidden" asp-for="Product.Id" />
+			<input type="submit" class=" btn-danger " value=" Delete" />
+	
+		
+	</dt>
+</dl>
+	</form>

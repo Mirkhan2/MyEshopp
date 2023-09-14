@@ -17,7 +17,7 @@ namespace MyEshopp.Models
 
 		public ICollection<CatagoryToProduct> CatagoryToProducts { get; set; }
 
+        public List<OrderDetail> OrderDetails { get; set; }
 
-
-	}
+    }
 }

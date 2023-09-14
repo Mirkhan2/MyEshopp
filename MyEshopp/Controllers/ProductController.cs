@@ -18,7 +18,7 @@ namespace MyEshopp.Controllers
         public IActionResult ShowProductByGroupId(int id, string name)
 		{
 				ViewData["GroupName"]=name;
-				ViewData["Name"]="nyma";
+				//ViewData["Name"]="nyma";
 			
 			var products = _context.CatagoryToProducts
 				.Where(c => c.CatagoryId == id )
