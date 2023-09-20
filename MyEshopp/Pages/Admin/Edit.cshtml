@@ -6,7 +6,7 @@
 <h1>Edit k</h1>
 <hr />
 <form method="post" enctype="multipart/form-data">
-	<input type="hidden" asp-for="Product.Id"  />
+	<input type="hidden" asp-for="Product.Id" />
 	<dl class="dl-horizontal">
 		<dd><label asp-for="Product.Name"></label> </dd>
 		<dt>
@@ -33,9 +33,18 @@
 			<input asp-for="Product.Picture" />
 			<span asp-validation-for="Product.Picture"></span>
 		</dt>
-		<dd>  </dd>
+		<dd> Groups </dd>
 		<dt>
-			<input type="submit" class=" btn-success" value=" submita" />
+
+			@foreach (var item in Model.Product.Catagories)
+			{
+				<p>
+					<input type="checkbox" name="selectedGroups" value="@item.Id" @(Model.GroupsProduct.Any(c => c==item.Id)?"checked":"") /> @item.Name
+				</p>
+			}
+		</dt>
+		<dd>  </dd>
+		<input type="submit" class=" btn-success" value=" submita" />
 		</dt>
 	</dl>
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -52,9 +53,9 @@ namespace MyEshopp
 					option.LogoutPath = "/Account/logout";
 					option.ExpireTimeSpan = TimeSpan.FromDays(10);
 				});
-			
 
-			
+
+
 			#endregion
 		}
 
@@ -69,10 +70,34 @@ namespace MyEshopp
 			{
 				app.UseExceptionHandler("/Home/Error");
 			}
+
+			//app.Map("Admin", myHandler);
 			app.UseStaticFiles();
 			app.UseRouting();
+
 			app.UseAuthentication();
 			app.UseAuthorization();
+			app.Use(async (context, next) =>
+			{
+				if (context.Request.Path.StartsWithSegments("/Admin"))
+				{
+
+					if (!context.User.Identity.IsAuthenticated)
+					{
+						context.Response.Redirect("/Account/Login");
+					}
+
+					else if (!bool.Parse(context.User.FindFirstValue("IsAdmin")))
+					{
+						context.Response.Redirect("/Account/Login");
+					}
+
+				}
+
+				await next.Invoke();
+			});
+
+
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapRazorPages();
@@ -80,6 +105,8 @@ namespace MyEshopp
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
 			});
+
 		}
+
 	}
 }

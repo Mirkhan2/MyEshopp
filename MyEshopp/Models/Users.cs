@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyEshopp.Models
 {
@@ -12,6 +13,7 @@ namespace MyEshopp.Models
 
 		[Required]
 		[MaxLength(300)]
+
 		public string Email { get; set; }
 
         [Required]

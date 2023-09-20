@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyEshopp.Models
 {
@@ -9,6 +10,7 @@ namespace MyEshopp.Models
 		[EmailAddress]
 		[Display(Name = "Email")]
         [Required(ErrorMessage = "please {0} fill it. ")]
+		[Remote("VerifyEmali","Account")]
         public string Email { get; set; }
         [Required(ErrorMessage = "please {0} fill it. ")]
         [MaxLength(50)]

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace MyEshopp.Models
 {
@@ -10,5 +11,7 @@ namespace MyEshopp.Models
         public decimal Price { get; set; }
         public int QunatityInStock { get; set; }
         public IFormFile Picture { get; set; }
+        public List<Catagory> Catagories { get; set; }
+      
     }
 }

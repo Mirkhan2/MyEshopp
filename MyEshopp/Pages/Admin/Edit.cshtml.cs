@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,11 @@ namespace MyEshopp.Pages.Admin
         }
         [BindProperty]
         public AddEditProductViewModel Product { get; set; }
+
+        [BindProperty]
+        public List<int> selectedGroups { get; set; }
+
+        public List<int> GroupsProduct { get; set; }
         public void OnGet(int id)
         {
             var product = _context.Products.Include(p => p.Item)
@@ -28,9 +34,14 @@ namespace MyEshopp.Pages.Admin
                       QunatityInStock = s.Item.QuantityInStock,
                       Price = s.Item.Price
                   }).FirstOrDefault();
-            Product = product;
+	
+			Product = product;
+            product.Catagories = _context.Catagories.ToList();
+            GroupsProduct = _context.CatagoryToProducts.Where(c => c.ProductId == id)
+                .Select(s => s.CatagoryId).ToList();
+
         }
-        public IActionResult OnPost()
+		public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
 
@@ -54,6 +65,25 @@ namespace MyEshopp.Pages.Admin
 				{
 					Product.Picture.CopyTo(stream);
 				}
+			}
+
+            _context.CatagoryToProducts.Where(c => c.ProductId == Product.Id).ToList()
+                .ForEach(g => _context.CatagoryToProducts.Remove(g));
+
+
+			if (selectedGroups.Any() && selectedGroups.Count > 0)
+			{
+				foreach (int gr in selectedGroups)
+				{
+					_context.CatagoryToProducts.Add(new CatagoryToProduct()
+					{
+						CatagoryId = gr,
+						ProductId = Product.Id
+
+
+					});
+				}
+				_context.SaveChanges();
 			}
 
 			return RedirectToPage("Index");

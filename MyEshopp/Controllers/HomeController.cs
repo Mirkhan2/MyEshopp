@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyEshopp.Data;
 using MyEshopp.Models;
+using ZarinpalSandbox;
 
 namespace MyEshopp.Controllers
 {
@@ -139,5 +140,52 @@ namespace MyEshopp.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
-	}
+
+		[Authorize]
+        public IActionResult Payement()
+        {
+			int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			var order = _context.Orders.Include(o => o.OrderDetails)
+				.FirstOrDefault(o => o.UserId == userId && !o.IsFinaly);
+			if (order == null)
+				return NotFound();
+
+			var payment = new Payment((int)order.OrderDetails.Sum(d => d.Price));
+			var res =  payment.PaymentRequest($"pardakhte{order.OrderId}",
+				"http://localhost:1635//Home/OnlinePayment/" + order.OrderId, "mirkhan@shams.com", "09136788445");
+			if(res.Result.Status == 100)
+			{
+				return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+			
+			}
+			else
+			{
+				return BadRequest();
+			}
+
+        }
+		public IActionResult OnlinePayment(int id)
+		{
+			if (HttpContext.Request.Query["Status"] != "" &&
+				HttpContext.Request.Query["Status"].ToString().ToLower() == "ok" &&
+				HttpContext.Request.Query["Authority"] != "" )
+			{
+				string authority = HttpContext.Request.Query["Authority"].ToString();
+				var order = _context.Orders.Include( o => o.OrderDetails).
+					FirstOrDefault( o => o.OrderId == id );
+				var payment = new Payment((int)order.OrderDetails.Sum(d => d.Price));
+				var res = payment.Verification(authority).Result;
+				if (res.Status == 100)
+				{
+					order.IsFinaly = true;
+					_context.Orders.Update(order);
+					_context.SaveChanges();
+					ViewBag.code = res.RefId;
+					return View();
+				}
+			}
+			return NotFound();
+			
+		}
+    }
 }

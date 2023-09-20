@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyEshopp.Data;
@@ -6,59 +8,81 @@ using MyEshopp.Models;
 
 namespace MyEshopp.Pages.Admin
 {
-    public class AddModel : PageModel
-    {
-        private MyEshoppContext _context;
-        public AddModel(MyEshoppContext context)
-        {
-            _context = context;
-        }
+	public class AddModel : PageModel
+	{
+		private MyEshoppContext _context;
+		public AddModel(MyEshoppContext context)
+		{
+			_context = context;
+		}
 
-        [BindProperty]
-        public AddEditProductViewModel Product { get; set; }
-        public void OnGet()
-        {
+		[BindProperty]
 
-        }
-        public IActionResult OnPost() 
-        {
-            if(!ModelState.IsValid)
-            
-                return Page();
+		public AddEditProductViewModel product { get; set; }
 
-            var item = new Item()
-            {
-                Price = Product.Price,
-                QuantityInStock = Product.QunatityInStock
-            };
-            _context.Add(item);   
-            _context.SaveChanges();
+		[BindProperty]
+		public List<int> selectedGroups { get; set; }
+		public void OnGet()
+		{
+			product = new AddEditProductViewModel()
+			{
+				Catagories = _context.Catagories.ToList(),
+
+			};
+		}
+		public IActionResult OnPost()
+		{
+			if (!ModelState.IsValid)
+
+				return Page();
+
+			var item = new Item()
+			{
+				Price = product.Price,
+				QuantityInStock = product.QunatityInStock
+			};
+			_context.Add(item);
+			_context.SaveChanges();
 
 
-            var pro = new Product()
-            {
-                Name = Product.Name,
-                Item = item,
-                Description = Product.Description,
-            };
-            _context.Add(pro);
-            _context.SaveChanges();
-            pro.ItemId = pro.Id;
-            _context.SaveChanges();
+			var pro = new Product()
+			{
+				Name = product.Name,
+				Item = item,
+				Description = product.Description,
+			};
+			_context.Add(pro);
+			_context.SaveChanges();
+			pro.ItemId = pro.Id;
+			_context.SaveChanges();
 
-            if(Product.Picture?.Length> 0)
-            {
-                string filepath = Path.Combine(Directory.GetCurrentDirectory(),
-                    "wwwrot",
-                    "images", pro.Id +Path.GetExtension(Product.Picture.FileName ));
-                using (var stream = new FileStream(filepath,FileMode.Create))
-                {
-                    Product.Picture.CopyTo(stream);
-                }
-            }
+			if (product.Picture?.Length > 0)
+			{
+				string filepath = Path.Combine(Directory.GetCurrentDirectory(),
+					"wwwrot",
+					"images", pro.Id + Path.GetExtension(product.Picture.FileName));
+				using (var stream = new FileStream(filepath, FileMode.Create))
+				{
+					product.Picture.CopyTo(stream);
+				}
+			}
 
-            return RedirectToPage("Index");
-            
-        }
-    }
-}
+			if (selectedGroups.Any() && selectedGroups.Count > 0)
+			{
+				foreach (int gr in selectedGroups)
+				{
+					_context.CatagoryToProducts.Add(new CatagoryToProduct()
+					{
+						CatagoryId = gr,
+						ProductId = pro.Id
+
+
+					});
+				}
+				_context.SaveChanges();
+			}
+			return RedirectToPage("Index");
+		}
+			
+		}
+	}
