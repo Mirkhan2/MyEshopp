@@ -18,6 +18,8 @@ namespace MyEshopp.Data
 		public DbSet<Users> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        //public DbSet<Wallet> Wallets { get; set; }
+
 
         public DbSet<Test> Test { get; set; }
        

@@ -18,7 +18,7 @@ namespace MyEshopp.Components
 		
 
 		
-		public async Task<IViewComponentResult> InvokeAsync()
+		public async Task<IViewComponentResult> invokeAsync()
 		{
 			
 
